@@ -1,2 +1,31 @@
+___________________________________________________Primer caso_________________________________________________________________________________________________
 En este primer ejemplo vamos a ver como funciona el ciclo de vida en React, para ello vamos a hacer uso de dos contadores,
-importamos el useState para poder crear un estado el cual va a ser un array llamado counter1
+importamos el useState para poder crear un estado el cual va a ser un array llamado counter1.
+
+En el primer ejecicio lo que va a suceder es que la función que esta dentro del efecto se va a ejecutar cada vez que hay un render del componente,
+es decir, cada vez que se cargue o cada vez que se cambie un estado del componente.
+
+Llamamos al useEffect de la fomra mas basica posible, como todos los hook esta es una función la cual recibe dos parametros, el primero es una función
+Y el segundo es un arreglo de dependencias, que podemos enviarlo o no, de acuerdo a lo que enviemos en dicho arreglo de dependencias 
+el useEffect se comportara de forma distinta
+
+___________________________________________________Segundo caso_________________________________________________________________________________________________
+
+El efecto de useEffect que recibe una función y un arreglo de dependencias, en este caso vamos a enviarle un arreglo vacio.
+
+En este caso lo que estamos esperando o lo que va a suceder es que basicamente esta función del useEffect se va a ejecutar la primera vez que carga el 
+componente y cambie el estado que cambie no se va a volver a ejecutar esta función, jamás.
+
+___________________________________________________Tercer caso_________________________________________________________________________________________________
+
+Ahora vamos a trabajar con un efecto que va a recibir dependencias, primero recibe la función y el arreglo de dependencia, le enviamos el counter1.
+
+En este caso lo que va a pasar es basicamente que el efecto se va a ejecutar en la primera carga de componente como todos los effects y adicionalmente 
+se va a volver a ejecutar esta función cada vez que haya un cambio en el estado counter1, mejor dicho cada vez que incrementemos ese contador se volvera a ejecutar 
+esta función y si cambia otro estado como el counter2 no se va a ejecutar porque solo va a estar escuchando esa dependencia que es el counter1 
+
+___________________________________________________Cuarto caso_________________________________________________________________________________________________
+Este ultimo efecto que va recibir una función y su arreglo de dependencias, en este caso va a escuchar tanto el counter1 como al counter2.
+
+En este caso lo que va a suceder es que la función se va a ejecutar cuando haya algún cambio ya sea en counter1 o en counter 2, conque por lo menos alguno 
+de los estados cambie la función se ejecutara.

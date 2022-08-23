@@ -1,8 +1,33 @@
-import React, { useState } from 'react' //importamos el useState para poder crear un estado
+import React, { useState, useEffect } from 'react' //importamos el useState para poder crear un estado e importamos también el useEffect
 
 const Lifecycle = () => {
     const [counter1, setCounter1] = useState(0);
     const [counter2, setCounter2] = useState(0);
+
+    //--------------1
+    useEffect(() => {
+        console.log('useEffect no dependency')
+    });
+
+    //--------------2
+    useEffect(() => {
+        console.log('useEffect [] arreglo vacio');
+    }, []);
+
+
+    //--------------3
+    useEffect(() => {
+        console.log('useEffect [counter1]');
+    }, [counter1]);
+
+    useEffect(() => {
+        console.log('useEffect [counter2]');
+    }, [counter2]);
+
+    //--------------4
+    useEffect(() => {
+        console.log('useEffect [counter1] y [counter2]');
+    }, [counter1, counter2]);
 
   return (
     <div>
