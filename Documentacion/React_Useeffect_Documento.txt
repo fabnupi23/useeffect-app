@@ -1,0 +1,2 @@
+En este primer ejemplo vamos a ver como funciona el ciclo de vida en React, para ello vamos a hacer uso de dos contadores,
+importamos el useState para poder crear un estado el cual va a ser un array llamado counter1

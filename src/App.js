@@ -1,10 +1,11 @@
 import React from 'react';
+import {Lifecycle} from './Lifecycle';
 
 
 function App() {
   return (
     <div>
-      <h1>useeffect-App</h1>
+      <Lifecycle/>
     </div>    
   );
 }
