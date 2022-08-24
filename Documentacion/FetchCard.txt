@@ -83,3 +83,78 @@ useEffect(() => {
 
 ______________________________________________________________________________________________________________________________________________________________________________________________
 EJEMPLO DE EFECTO QUE RECIBE DEPENDENCIAS 
+Aprovechando esta API, vamos a decir que cada vez que cambiemos el usuario con el boton un efecto escuche a dicho estado y renderice los POST del usuario respectivo, primero vamos a trabajar 
+en como se va a ver.
+
+Creamos un nuevo estado que almacene dichos POST ------------- const [posts, setsPosts] = useState(initialPosts); ------------- como valor inicial le pasamos un arreglo vacio, le vamos a asignar
+un valor de prueba para ver como se va a ver (initialPosts) fuera del componente creamos la constante, que va a ser un arreglo de objetos el cual va a contener el id de cada post y el title:
+
+const initialPosts = [
+    {id: 1, title: "Post 1"},
+    {id: 2, title: "Post 2"},
+]
+
+Después mostramos los POSTS en pantalla, lo cual se hace en el return 
+
+    <br/>
+
+        <h2>Posts - user: {user.id}</h2>
+        <ul>
+            {posts.map(post => (
+                <li key={post.id}>{post.title}</li>
+            ))}
+        </ul> 
+
+Ahora vamos a traer los POST desde la API cada vez que el usuario cambie, para esto creamos una nueva función, la cual creamos en la carpeta helpers y se llama getPost.js, en este archivo
+ya no generaremos el userId de forma aleatoria sino que lo tomaremos como alrgumento de la función, también se cambia la url, ahora los recursos que se recibirian serian los post y retornariamos
+dichos post, obtenemos la url de la API para obetener los distintos POSTS 
+
+const getPosts = async (userId) =>{
+    const url = "https://jsonplaceholder.typicode.com/posts?userId=1";
+    const res = await fetch(url);
+    const posts = await res.json();
+
+    return posts; 
+}
+
+export { getPosts }; 
+
+Después de ralizar este proceso regresamos a FetchCard y creamos una nueva acción o una nueva función la cual va a llamar a la función getPost, ejecutamos la función y si es satisfactoria ejecuta otra
+función la cual va a recibir en su argumento lo que retorna de la función getPost que son precisamente los recursos POST 
+
+const updatePost = () => {
+        getPosts()
+            .then((newPosts) => {
+                setsPosts(newPosts);
+            })
+    }
+
+Ahora para darle utilidad a la función a updatePost creamos un efecto recibe la función y un arreglo de dependencias, en este caso vamos a escuchar el esatod user, cada vez que haya un cambio 
+sea porque ocurrio la renderización o porque cargamos uno nuevo mediante el boton vamos a traer estos nuevos post y vamos a cargar el esatdo post con esa nueva lista:
+
+useEffect(() => {
+        updatePost();
+    }, [user]);
+
+-Ahora en la función getPost y lo volvemos dinamico, concatenamos el userId:
+
+const getPosts = async (userId) =>{
+    const url = "https://jsonplaceholder.typicode.com/posts?userId="+userId;
+    const res = await fetch(url);
+    const posts = await res.json();
+
+    return posts; 
+}
+
+export { getPosts }; 
+
+-Ahora vamos a necesitar enviar esta funcion dicho parametro:
+
+ const updatePost = () => {
+        getPosts(user.id)
+            .then((newPosts) => {
+                setsPosts(newPosts);
+            })
+    }
+Vemos que esta función no necesita recibir un parametro cuando es llamada porque desde aqui podremos acceder en vivo a lo que tiene en todo momento el estaod user, si esta función
+estuviese en un archivo aparte donde no tuviese acceso al estado, en ese momento si tendria que recibir el parametro, por ahora no lo necesita
