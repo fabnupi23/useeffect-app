@@ -1,0 +1,66 @@
+En FetchCard vamos a realizar una consulta a una API que nos va a traer un usuario, entonces vamos a mostrar en pantalla los datos del usuario, primero importamos el useState
+para poder cargar un estado.
+EN eL estado vamos a enviarle un valor inicial para ver como se muestra, fuera del componente creamos una constante llamada initialUser que va a tener los campos name y email
+dentro de un objeto, para obtener unos datos ingresamos a una API (https://jsonplaceholder.typicode.com/) la cual nos brinda un POST el cual nos ayuda a llamar a unos datos
+de usuarios, seleccionamos solo un usuario y copiamos la URL, en esta caso seria https://jsonplaceholder.typicode.com/users/1 ; después de esto hacemos la petición  a http
+para ello es conveniente hacerlo en un archivo externo, para ello creamos una carpeta Helpers dentro de la carpeta SRC y dentro de la carpeta creada, creamos un archivo
+llamado getUser.js, ahí crearemos una función que se llame getUser va a ser un arrow Function, dentro de esa funcion pegamos la URL https://jsonplaceholder.typicode.com/users/1
+depués creamos otra constante llamada response que va a ser fetch a la url sin embargo esto es un proceso asincrono asi que debemos indicar con await que espere a que termine el
+proceso antes de utilizar la constante res, para utilizar el await debe estar en un función async, ahora le damos formato a la respuesta creando una constante llamada data
+que es igual a await res formato json, recordemos que esta URL no entrega directamente el objeto usuario.
+
+const getUser = async () =>{
+    const url = "https://jsonplaceholder.typicode.com/users/1";
+    const res = await fetch(url);
+    const user = await res.json();
+
+    return user; 
+}
+
+export { getUser } 
+
+______________________________________________________________________________________________________________________________________________________________________________________________
+
+Importamos nuestro getUser en FetchCard, después creamos una nueva acción, es decir un funció que va  a hacer el llamado a la API y si tiene exito va a cargar el estado user
+con los valores que recibe; se crea una constante updateUser que va a ser un arrowFunction y va a ejecutar nuestro getUser(), lo ejecuta y si tiene exito ejecuta una función más
+y dentro del argumento se va acargar lo que retorna de la función getUser, en ese caso estaria retornando el user (Usuario), paa no confundirlo con el estado ponemos newUser
+y una vez lo tenemos cargamos el estado con los valores setUser(newUser); ya después de esto podemos usar la función updateUser, vamos anecesitar que esta función se ejecute la primera vez
+que se carga el componente y el hook que nos permite ejecutar una función la primera que se carga un componente y no volverlo a ejecutar es el useEffect cuando le enviamos como argumento 
+un arreglo vacio así que cargamos el useEffect.
+
+Creamos el efecto que va a recibir una función y un arreglo de dependencias que en este caso sera un arreglo vacio y allí vamos a llamar a la función updateUser para que se ejecute la unica vez
+cuando se cargue el componente:
+
+import React, { useState, useEffect } from 'react'
+import { getUser } from './helpers/getUser';
+
+const initialUser = {
+    name: "Fabian",
+    email: "fabnupi023@gmail.com"
+}
+
+const FetchCard = () => {
+    const [user, setUser] = useState(initialUser);
+
+    const updateUser = () => {
+        getUser()
+            .then((newUser) => {
+                setUser(newUser);
+            })
+    }
+
+    useEffect(() => {
+        updateUser();
+    }, []);
+
+  return (
+    <div>
+        <h1>{user.name}</h1>
+        <h1>{user.email}</h1>
+    </div>
+  )
+}
+
+export  { FetchCard }
+
+______________________________________________________________________________________________________________________________________________________________________________________________
