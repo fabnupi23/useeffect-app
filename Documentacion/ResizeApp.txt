@@ -1,0 +1,3 @@
+Vamos a capturar el ancho de la pantalla con un listener y vamos a aagregarlo a un estado para poder tener una propiedad reactiva que nos permita realizar
+acciones como si fuese una media query de css que cada vez qu cambie la pantalla pueda realizar comprobaciones, ejecutar diferentes acciones-funciones 
+lo que deseemos con todos los recursos que entrega React 
