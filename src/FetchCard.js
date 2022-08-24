@@ -24,6 +24,10 @@ const FetchCard = () => {
     <div>
         <h1>{user.name}</h1>
         <h1>{user.email}</h1>
+        <button onClick={updateUser}>
+            Cargar Usuario
+        </button>
+        
     </div>
   )
 }

@@ -64,3 +64,22 @@ const FetchCard = () => {
 export  { FetchCard }
 
 ______________________________________________________________________________________________________________________________________________________________________________________________
+
+Vamos a crear un boton  para que nos seleccione un usuario aleatorio ya que nuestra API nos ofrece 10 usuarios y como su ID es un numero entero, entonces este comportamento lo vamos a generar 
+nosotros, entonces tendiramos que generar un numero aleatorio del 1 al 10 y pasarle como idVariable y así podriamos hacer la función de traer un usuario aleatorio.
+
+comenzamos creando una constante llamada userId y concatenamos una función propia del lenguaje llamada math.random(); esta función genera un numero aleatorio entre 0 y el 1 incluydendo el 0 
+y sin incluir el 1, así que podremos esperar un valor entre 0 y 0,9999916.
+
+En FetchCard vamos a crear un nuevo boton y llamamos al evento onClick, dentro de este llamamos a updateUser.
+
+Esta es una de la funciones mas importantes de los efectos con los arreglos vacios que es realizar una consulta a la API que sea necesaria en la primera carga del componente, es uno de los 
+usos mas frecuentes, sin embargo recordemos la función principal que es ejecutar cualquier logica que necesitemos que se haga solo la primera vez que se renderiza el componente y nunca mas se
+vuelve a ejecutar:
+
+useEffect(() => {
+        updateUser();
+    }, []);
+
+______________________________________________________________________________________________________________________________________________________________________________________________
+EJEMPLO DE EFECTO QUE RECIBE DEPENDENCIAS 
