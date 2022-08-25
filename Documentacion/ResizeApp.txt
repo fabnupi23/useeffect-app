@@ -1,3 +1,89 @@
-Vamos a capturar el ancho de la pantalla con un listener y vamos a aagregarlo a un estado para poder tener una propiedad reactiva que nos permita realizar
+Vamos a capturar el ancho de la pantalla con un listener y vamos a agregarlo a un estado para poder tener una propiedad reactiva que nos permita realizar
 acciones como si fuese una media query de css que cada vez qu cambie la pantalla pueda realizar comprobaciones, ejecutar diferentes acciones-funciones 
-lo que deseemos con todos los recursos que entrega React 
+lo que deseemos con todos los recursos que entrega React; vamos a escuchar el cambio del ancho de la pantalla y dependiendo de su valor vamos a hacer o no 
+alguna que otra acción:
+
+import React from 'react'
+
+const ResizeApp = () => {
+  return (
+    <div>
+        <h1>ResizeApp</h1>
+    </div>
+  )
+}
+
+export { ResizeApp };
+
+_________________________________________________________________________________________________________________________________________________________________________
+Ahora vamos a comenzar capturando lo que hay en la pantalla asignadole a un estado y mostrando esa información en pantalla; importamos el useState y creamos un nuevo estado
+en una constante llamado windowWidth, después llamamos a useState y como valor inicial le pasamos el ancho actual de la pantalla mediante window.innerWidth:
+
+import React, {useState} from 'react'
+
+const ResizeApp = () => {
+    const[windowWidth, setWindowWidth] = useState(window.innerWidth);   
+
+
+  return (
+    <div>
+        <h1>{windowWidth}</h1>
+    </div>
+  )
+}
+
+export { ResizeApp };
+
+Después de esto realizamos la prueba y no va  a haber cambio dinamico ya que basicamente le estamos dando un valor inicial pero no estamos manejando ningun evento que 
+esté asociado con el cambio de la pantalla o del window, ¿como podemos hacer esto?.....acá es donde entra otra función muy utilizada de los efectos y son los listeners globales.
+
+Ahora importamos el useEffect y vamos a indicarle que cuando se cargue el componente por primera vez con un useEffect que le pasamos con un arreglo de dependencias un arreglo vacio
+nos agregue dicho listener; decimos que al objeto global window le agrega el listener que escuche el resize o el redimencionamiento basicamnete cuando la pantalla cambie a su
+tamaño y como segundo argumento podemos pasarle una arrowFunction y le indicamos que cada vez que haya un cambio en la pantalla me actualice el estado con el valor que
+tenga en ese momento el ancho de la pantalla:
+
+import React, {useEffect, useState} from 'react'
+
+const ResizeApp = () => {
+    const[windowWidth, setWindowWidth] = useState(window.innerWidth);  
+    
+    useEffect(() => {
+        window.addEventListener('resize', () => setWindowWidth(window.innerWidth));     
+    },[]);
+
+
+  return (
+    <div>
+        <h1>{windowWidth}</h1>
+    </div>  
+  )
+}
+
+export { ResizeApp };
+
+Efectivamente el listener que acabamos de agregar esta permitiendo que se escuche una función y cada vez que ocurra el evento resize o cambie de tamaño la pantalla pues se actualiza
+el valor y ahora tenemos en nuestro estado windowWidth el cual ya es reactivo y podemos implementar de la manera que nosotros querramos, por ejemplo vamos a crear un h2
+el cual va a tener una renderización de que se vea con la resolucion de un ipad, si se amplia más se desaparece, creamos la constante const isMobile = windowWidth < 768; 
+y la llamamos {isMobile && <h2>Show en linea de dispositivos moviles</h2>}
+
+import React, {useEffect, useState} from 'react'
+
+const ResizeApp = () => {
+    const[windowWidth, setWindowWidth] = useState(window.innerWidth);  
+
+    const isMobile = windowWidth < 768;
+    
+    useEffect(() => {
+        window.addEventListener('resize', () => setWindowWidth(window.innerWidth));     
+    },[]);
+
+
+  return (
+    <div>
+        <h1>{windowWidth}</h1>
+        {isMobile && <h2>Show en linea de dispositivos moviles</h2>}
+    </div>  
+  )
+}
+
+export { ResizeApp };
