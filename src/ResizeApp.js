@@ -6,7 +6,12 @@ const ResizeApp = () => {
     const isMobile = windowWidth < 768;
     
     useEffect(() => {
-        window.addEventListener('resize', () => setWindowWidth(window.innerWidth));     
+        const handelResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handelResize);     
+
+        return () => {  //CleanUp o accion que se ejecuta cuando el componente se desmonta, me ayuda a no ocupar mas estados en memoria
+            window.removeEventListener('resize', handelResize);
+        }
     },[]);
 
 
